@@ -31,13 +31,14 @@ player = pygame.Rect( (game_width - size) / 2, (game_height-size) /2, size, size
 
 
 class Snake:
-    def __init__(self,x,y,follow_part, isHead):
+    def __init__(self,x,y,follow_part, isHead, nomber):
         self.x = x
         self.y = y
-        if isHead:
-            self.speed = 0.2
-        else:
-            self.speed = 0.1
+        self.speed = 0.7 - nomber / 10
+        #if isHead:
+            #self.speed = 0.2
+        #else:
+            #self.speed = 0.1
         self.hitbox = pygame.Rect(0, 0, 150, 150)
         self.pic = pygame.image.load("tremmer\Tremor Scales.png")
         self.pic_small = pygame.transform.scale(self.pic, (150,150))
@@ -83,7 +84,7 @@ snake = []
 
 follow_part = None
 for i in range (0,5):
-    new_part = Snake(300,300 + i *100,follow_part, i == 0)
+    new_part = Snake(300,300 + i *100,follow_part, i == 0,i)
     snake.append(new_part)
     follow_part = new_part
     
