@@ -3,8 +3,8 @@ import os
 
 # Start the game
 pygame.init()
-game_width = 1000   
-game_height = 650
+game_width = 1500  
+game_height = 700
 screen = pygame.display.set_mode((game_width, game_height))
 running = True
 
@@ -34,6 +34,7 @@ class Snake:
     def __init__(self,x,y,follow_part, isHead, nomber):
         self.x = x
         self.y = y
+        self.dir =0
         self.speed = 0.7 - nomber / 10
         #if isHead:
             #self.speed = 0.2
@@ -43,11 +44,14 @@ class Snake:
         self.pic = pygame.image.load("tremmer\Tremor Scales.png")
         self.pic_small = pygame.transform.scale(self.pic, (150,150))
         self.pic_small.set_colorkey((255,255,255))
+        self.pic_small = pygame.Surface.convert_alpha(self.pic_small)
         self.follow_part = follow_part
         self.isHead = isHead
 
     def draw(self):
-        cam.blit(self.pic_small , (self.x , self.y))
+        tempicp = pygame.transform.rotate(self.pic_small, self.dir)
+        cam.blit(tempicp , (self.x , self.y))
+
 
     def update (self):
         if self.isHead:
@@ -56,6 +60,12 @@ class Snake:
         else:
             follow_x = self.follow_part.x
             follow_y = self.follow_part.y
+        pos = pygame.math.Vector2(self.x- 75,self.y -75)
+        pos2 = pygame.math.Vector2(follow_x ,follow_y)
+        self.dir = pos.angle_to(pos2)
+
+
+
             
         if self.x > follow_x:
             self.x += -self.speed
@@ -88,7 +98,7 @@ for i in range (0,5):
     snake.append(new_part)
     follow_part = new_part
     
-speed = 1
+speed = 1.5
 player_x = player.x
 player_y = player.y
 
