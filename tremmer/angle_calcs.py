@@ -1,8 +1,8 @@
 import pygame
-import math
+import pygame.math as math
 
 def angle_of_vector(x, y):
-    return pygame.math.Vector2(x, y).angle_to((1, 0))  # 2: with pygame.math.Vector2.angle_to
+    return math.Vector2(x, y).angle_to((1, 0))  # 2: with pygame.math.Vector2.angle_to
     
 def angle_of_line(x1, y1, x2, y2):
     return angle_of_vector(x2-x1, y2-y1)               # 2: pygame.math.Vector2.angle_to
@@ -14,7 +14,7 @@ font = pygame.font.SysFont(None, 50)
 
 angle = 0
 radius = 150
-vec = (radius, 0)
+vec = math.Vector2(radius, 0)
 
 run = True
 while run:
@@ -36,8 +36,7 @@ while run:
     window.blit(text_surf, text_surf.get_rect(bottomleft = (cpt[0]+20, cpt[1]-20)))
     pygame.display.flip()
 
-    angle = (angle + 1) % 360
-    vec = radius * math.cos(angle*math.pi/180), radius * -math.sin(angle*math.pi/180)
+    vec = vec.rotate(1)
 
 pygame.quit()
 exit()

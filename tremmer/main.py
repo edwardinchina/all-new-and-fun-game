@@ -1,6 +1,12 @@
 import pygame
 import os
 
+def angle_of_vector(x, y):
+    return math.Vector2(x, y).angle_to((1, 0))  # 2: with pygame.math.Vector2.angle_to
+    
+def angle_of_line(x1, y1, x2, y2):
+    return angle_of_vector(x2-x1, y2-y1)               # 2: pygame.math.Vector2.angle_to
+
 # Start the game
 pygame.init()
 game_width = 1500  
@@ -60,9 +66,10 @@ class Snake:
         else:
             follow_x = self.follow_part.x - 75
             follow_y = self.follow_part.y - 75
-        pos = pygame.math.Vector2(self.x- 75,self.y -75)
-        pos2 = pygame.math.Vector2(follow_x ,follow_y)
-        self.dir = pos.angle_to(pos2)
+
+        # use the function below:
+        angle_of_line(__,__,__,__)
+        
         pygame.draw.line(screen, (255,255,255),pos,pos2,2)
         print(self.dir) 
 
