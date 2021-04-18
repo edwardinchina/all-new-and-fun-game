@@ -15,7 +15,7 @@ class Camera:
 
     def blit(self, pic, p):
         x,y = p
-        screen.blit(pic, (x -self.x, y -self.y))
+        screen.blit(pic, ((x -self.x) -150, (y -self.y)- 150))
 
     # def rect(self, rect, color):
     #     rect = rect.                # move rectangle before drawing.
@@ -31,11 +31,11 @@ player = pygame.Rect( (game_width - size) / 2, (game_height-size) /2, size, size
 
 
 class Snake:
-    def __init__(self,x,y,follow_part, isHead, nomber):
+    def __init__(self,x,y,follow_part, isHead, number):
         self.x = x
         self.y = y
         self.dir =0
-        self.speed = 0.7 - nomber / 10
+        self.speed = (1 - number / 10)/2
         #if isHead:
             #self.speed = 0.2
         #else:
@@ -55,28 +55,28 @@ class Snake:
 
     def update (self):
         if self.isHead:
-            follow_x = player_x
-            follow_y = player_y
+            follow_x = player_x + 5
+            follow_y = player_y + 5
         else:
-            follow_x = self.follow_part.x
-            follow_y = self.follow_part.y
+            follow_x = self.follow_part.x - 75
+            follow_y = self.follow_part.y - 75
         pos = pygame.math.Vector2(self.x- 75,self.y -75)
         pos2 = pygame.math.Vector2(follow_x ,follow_y)
         self.dir = pos.angle_to(pos2)
+        pygame.draw.line(screen, (255,255,255),pos,pos2,2)
+        print(self.dir) 
 
-
-
-            
-        if self.x > follow_x:
+   
+        if self.x - 75 > follow_x:
             self.x += -self.speed
             
-        if self.x < follow_x:
+        if self.x - 75 < follow_x:
             self.x += self.speed
                 
-        if self.y < follow_y:
+        if self.y - 75 < follow_y:
             self.y += self.speed
                 
-        if self.y > follow_y:
+        if self.y - 75 > follow_y:
             self.y += -self.speed
 
     
@@ -145,7 +145,7 @@ while running:
 
     # Tell pygame to update the screen
     pygame.display.update()
-    print(cam.x)
-    print(player.x)
-    print(snake[0].x)
+    # print(cam.x)
+    # print(player.x)
+    # print(snake[0].x)
 
