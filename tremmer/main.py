@@ -18,7 +18,6 @@ class Camera:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-
     def blit(self, pic, p):
         x,y = p
         screen.blit(pic, ((x -self.x) -150, (y -self.y)- 150))
@@ -47,7 +46,10 @@ class Snake:
         #else:
             #self.speed = 0.1
         self.hitbox = pygame.Rect(0, 0, 150, 150)
-        self.pic = pygame.image.load("tremmer\Tremor Scales.png")
+        if isHead:
+            self.pic = pygame.image.load("tremmer\\untitled.png")
+        else:
+            self.pic = pygame.image.load("tremmer\Tremor Scales.png")
         self.pic_small = pygame.transform.scale(self.pic, (150,150))
         self.pic_small.set_colorkey((255,255,255))
         self.pic_small = pygame.Surface.convert_alpha(self.pic_small)
@@ -71,8 +73,9 @@ class Snake:
         angle_of_line(__,__,__,__)
         
         pygame.draw.line(screen, (255,255,255),pos,pos2,2)
-        print(self.dir) 
+        # print(self.dir) 
 
+        
    
         if self.x - 75 > follow_x:
             self.x += -self.speed
