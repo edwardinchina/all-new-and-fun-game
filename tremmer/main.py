@@ -1,4 +1,5 @@
 import pygame
+import pygame.math as math
 import os
 
 def angle_of_vector(x, y):
@@ -6,6 +7,11 @@ def angle_of_vector(x, y):
     
 def angle_of_line(x1, y1, x2, y2):
     return angle_of_vector(x2-x1, y2-y1)               # 2: pygame.math.Vector2.angle_to
+
+def spring_force(x1, y1, x2, y2, k, d):
+    diff = math.Vector2(x2,y2) - math.Vector2(x1,y1)
+    diff = diff - diff.normalize()*d
+    return diff*k
 
 # Start the game
 pygame.init()
@@ -22,6 +28,11 @@ class Camera:
     def blit(self, pic, p):
         x,y = p
         screen.blit(pic, ((x -self.x) -150, (y -self.y)- 150))
+
+    def line(self, color, pos1, pos2, width):
+        x1, y1 = pos1
+        x2, y2 = pos2
+        pygame.draw.line(screen,color,(x1-self.x,y1-self.y),(x2-self.x,y2-self.y),width)
 
     # def rect(self, rect, color):
     #     rect = rect.                # move rectangle before drawing.
@@ -59,6 +70,14 @@ class Snake:
         cam.blit(tempicp , (self.x , self.y))
 
 
+        if self.isHead:
+            follow_x = player_x + 5
+            follow_y = player_y + 5
+        else:
+            follow_x = self.follow_part.x - 75
+            follow_y = self.follow_part.y - 75
+        cam.line((255,255,255),(self.x-75,self.y-75),(follow_x,follow_y),4)
+
     def update (self):
         if self.isHead:
             follow_x = player_x + 5
@@ -68,25 +87,27 @@ class Snake:
             follow_y = self.follow_part.y - 75
 
         # use the function below:
-        angle_of_line(__,__,__,__)
+        self.dir = angle_of_line(self.x-75,self.y-75,follow_x,follow_y) - 90
         
-        pygame.draw.line(screen, (255,255,255),pos,pos2,2)
-        print(self.dir) 
+        print(self.dir)
 
-   
-        if self.x - 75 > follow_x:
-            self.x += -self.speed
+        if self.isHead:
+            if self.x - 75 > follow_x:
+                self.x += -self.speed
             
-        if self.x - 75 < follow_x:
-            self.x += self.speed
-                
-        if self.y - 75 < follow_y:
-            self.y += self.speed
-                
-        if self.y - 75 > follow_y:
-            self.y += -self.speed
+            if self.x - 75 < follow_x:
+                self.x += self.speed
 
-    
+            if self.y - 75 < follow_y:
+                self.y += self.speed
+                    
+            if self.y - 75 > follow_y:
+                self.y += -self.speed
+
+        else:
+            dx,dy = spring_force(self.x-75,self.y-75,follow_x,follow_y,0.3,70)
+            self.x += dx
+            self.y += dy
 
     def distance(self):
         f_x = self.follow_part.x
