@@ -128,7 +128,7 @@ class Snake:
         
         # pygame.draw.line(screen, (255,255,255),pos,pos2,2)
 
-        dx,dy = spring_force(self.x,self.y,follow_x,follow_y,0.3,50)
+        dx,dy = spring_force(self.x,self.y,follow_x,follow_y,0.01,100)
         self.x += dx
         self.y += dy
 
@@ -167,7 +167,9 @@ for i in range(0, 5):
     new_part = Snake(300, 300 + i * 100, follow_part, i == 0, i)
     snake.append(new_part)
     follow_part = new_part
- 
+snake.reverse()
+
+
 speed = 1.5
 
 mouse_x = 0
