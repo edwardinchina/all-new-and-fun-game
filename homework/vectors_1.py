@@ -18,7 +18,7 @@ class Bullet:
         self.x += self.v.x
         self.y += self.v.y
         self.hitbox = pygame.Rect(self.x, self.y, 10, 10)
-        pygame.draw.rect(screen, (255, 0, 0), self.hitbox)
+        pygame.draw.rect(screen, (255, 255, 255), self.hitbox)
 
 
 bullets = []
